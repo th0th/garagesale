@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "garagesale.fullname" . }}-garagesale
+  labels:
+    {{- include "garagesale.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.garagesale.ingress.annotations | nindent 4 }}
+spec:
+  rules:
+  - host: {{ .Values.garagesale.ingress.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "garagesale.fullname" . }}-garagesale
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.garagesale.ingress.host }}
+    secretName: {{ include "garagesale.fullname" . }}-garagesale-tls

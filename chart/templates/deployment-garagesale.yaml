@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "garagesale.fullname" . }}-garagesale
+  labels:
+    {{- include "garagesale.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.garagesale.replicas }}
+  selector:
+    matchLabels:
+      deployment: garagesale
+      {{- include "garagesale.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        deployment: garagesale
+        {{- include "garagesale.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - image: {{ printf "%s:%s" .Values.garagesale.image.repository .Values.garagesale.image.tag }}
+        imagePullPolicy: {{ .Values.garagesale.image.pullPolicy }}
+        name: garagesale
+        {{- if .Values.garagesale.resources }}
+        resources:
+          {{- toYaml .Values.garagesale.resources | nindent 10 }}
+        {{- end }}

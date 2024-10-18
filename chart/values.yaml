@@ -1,0 +1,10 @@
+garagesale:
+  image:
+    pullPolicy: Always
+    repository: ghcr.io/iibarbari/garagesale
+    tag: latest
+  ingress:
+    annotations: {}
+    host: garagesale.local
+  replicas: 1
+  resources: {}
