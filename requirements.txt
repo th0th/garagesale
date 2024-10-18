@@ -2,6 +2,7 @@ asgiref==3.8.1
 beautifulsoup4==4.12.3
 bleach==6.1.0
 Django==4.2.16
+django-bootstrap-v5==1.0.11
 django-markdownfield==0.11.0
 Markdown==3.7
 pillow==11.0.0

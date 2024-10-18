@@ -3,18 +3,16 @@ from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_STANDARD
 
 class ItemLink(models.Model):
-    name = models.CharField(max_length=50)
     url = models.URLField(max_length=500)
 
     def __str__(self):
-        return self.name
+        return self.url
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
-
 
 class Item(models.Model):
     description = MarkdownField(rendered_field='description_rendered', validator=VALIDATOR_STANDARD, default='')
@@ -31,11 +29,9 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
-
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='items/')
-    alt = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(upload_to='market/')
 
     def __str__(self):
         return f"Image for {self.item.name}"

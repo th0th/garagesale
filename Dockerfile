@@ -3,7 +3,7 @@ FROM python:3.12-slim-bookworm
 WORKDIR /app
 
 COPY garagesale garagesale
-COPY items items
+COPY market market
 COPY media media
 COPY static static
 COPY templates templates

@@ -10,8 +10,6 @@
                     <div class="card mh-100">
                         {% if item.images.all|length > 0 %}
                             <img src="{{ item.images.first.image.url }}" class="card-img-top" alt="{{ item.name }}">
-                        {% else %}
-                            <img src="path_to_default_image.jpg" class="card-img-top" alt="No image available">
                         {% endif %}
 
                         <div class="card-body">
@@ -33,7 +31,7 @@
                             </p>
 
 
-                            <a href="{% url 'items:detail' item.id %}" class="stretched-link" ></a>
+                            <a href="{% url 'market:detail' item.id %}" class="stretched-link"></a>
                         </div>
                     </div>
                 </div>

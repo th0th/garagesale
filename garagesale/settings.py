@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-uk#-9s-4fsleg$b-0$h1zp_^6lj4%)l83yv$b9kcuc02@$no(o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['garagesale.dev.sari.me', 'localhost']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'market',
     'markdownfield',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
