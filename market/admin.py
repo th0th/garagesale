@@ -16,6 +16,7 @@ class ItemLinkInline(admin.TabularInline):
 class TagAdmin(admin.ModelAdmin):
     list_display = ['name']
     search_fields = ['name']
+    prepopulated_fields = {"slug": ["name"]}
 
 
 @admin.register(ItemLink)

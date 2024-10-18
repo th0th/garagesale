@@ -1,41 +1,71 @@
 {% extends "layout.html" %}
 
+{% load bootstrap_icons %}
+{% load humanize %}
+
 {% block title %}Listings{% endblock %}
 
 {% block content %}
     <div class="container">
-        <div class="row gy-3" data-masonry='{"percentPosition": true }'>
-            {% for item in items %}
-                <div class="col-12 col-md-6 col-xl-4">
-                    <div class="card mh-100">
-                        {% if item.images.all|length > 0 %}
-                            <img src="{{ item.images.first.image.url }}" class="card-img-top" alt="{{ item.name }}">
-                        {% endif %}
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-pills">
+                    {% for tag in tags %}
+                        <li class="nav-item">
+                            <a
+                              href="
+                                {% if tag.slug == selected_tag %}{% url 'market:list' %}{% else %}{% url 'market:list' %}?tag={{ tag.slug }}{% endif %}"
+                              class="nav-link {% if tag.slug == selected_tag %}active{% endif %}"
+                            >
+                                {{ tag.name.capitalize }} {{ tag.count }}
 
-                        <div class="card-body">
+                                {% if tag.slug == selected_tag %}
+                                    {% bs_icon 'x' size='1.5rem' extra_classes='ms-2' %}
+                                {% endif %}
+                            </a>
+                        </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="row gy-3" data-masonry='{"percentPosition": true }'>
+                {% for item in items %}
+                    <div class="col-12 col-md-6 col-xl-4 position-relative">
+                        <div class="position-absolute z-3" style="top:20px; left:40px">
                             {% if item.is_sold %}
                                 <span class="badge bg-danger">Satıldı</span>
                             {% else %}
                                 <span class="badge bg-success">Satışta</span>
                             {% endif %}
+                        </div>
 
-                            <h5 class="card-title mt-2 text-truncate">
-                                {{ item.name }}
-                            </h5>
+                        <div class="card mh-100 {% if item.is_sold == True %} pe-none opacity-50 {% endif %}">
+                            {% if item.images.all|length > 0 %}
+                                <img src="{{ item.images.first.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                            {% endif %}
 
+                            <div class="card-body">
+                                <h5 class="card-title mt-2">
+                                    {{ item.name }}
+                                </h5>
 
-                            <p class="card-text fw-medium">
-                                <span class="text-decoration-line-through text-danger">{{ item.purchase_price }}₺</span>
+                                <p class="card-text fw-medium">
+                                    <span class="text-decoration-line-through text-secondary">
+                                        {{ item.purchase_price | intcomma }}₺
+                                    </span>
 
-                                <span>{{ item.sale_price }}₺</span>
-                            </p>
+                                    <span class="text-warning ms-2 fs-4 fw-medium">
+                                        {{ item.sale_price | intcomma }}₺
+                                    </span>
+                                </p>
 
-
-                            <a href="{% url 'market:detail' item.id %}" class="stretched-link"></a>
+                                <a href="{% url 'market:detail' item.id %}" class="stretched-link"></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

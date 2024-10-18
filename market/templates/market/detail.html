@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
 
+{% load humanize %}
+
 {% block title %}Detail{% endblock %}
 
 {% block content %}
     <div class="container">
-        <div class="row gy-3 gy-md-0 gx-md-3">
-            <div class="col-12 col-md-4">
+        <div class="row gy-3 gy-lg-0 gx-lg-6">
+            <div class="col-12 col-lg-5">
                 <div id="item-image-carousel" class="carousel slide">
                     <div class="carousel-indicators">
                         {% for image in item.images.all %}
@@ -41,30 +43,121 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
-                <p>
-                    <span class="text-decoration-line-through text-danger">{{ item.purchase_price }}₺</span>
+            <div class="col-12 col-lg-6">
+                {# Tags #}
+                <div class="mb-3">
+                    {% for tag in item.tags.all %}
+                        <span class="badge text-bg-secondary">{{ tag.name.capitalize }}</span>
+                    {% endfor %}
+                </div>
 
-                    <span>{{ item.sale_price }}₺</span>
-                </p>
+                {# Name #}
+                <h1 class="fs-2 mt-3">{{ item.name }}</h1>
 
-                <h1 class="fs-2">{{ item.name }}</h1>
+                {# Price #}
+                <div class="my-3 fw-medium">
+                    <span class="text-decoration-line-through text-secondary">
+                        {{ item.purchase_price | intcomma }}₺
+                    </span>
 
-                {{ item.description_rendered | safe }}
+                    <span class="text-warning ms-2 fs-4">
+                        {{ item.sale_price | intcomma }}₺
+                    </span>
+                </div>
 
-                {% if item.links.all %}
-                    <h3>Linkler</h3>
+                <hr class="hr" />
 
-                    <ul>
-                        {% for link in item.links.all %}
-                            <li>
-                                <a href="{{ link.url }}" target="_blank">
-                                    Orijinal ürün sayfasına git
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                <div class="d-flex flex-row gap-1 my-3">
+                    <a
+                      class="btn btn-lg btn-success flex-grow-1"
+                      target="_blank"
+                      href="https://wa.me/905383453839?text={{ item.name | urlencode }}"
+                    >
+                        Satın al
+                    </a>
+
+                    <a
+                      class="btn btn-lg btn-outline-success"
+                      target="_blank"
+                      href="https://wa.me/905383453839?text={{ item.name | urlencode }}"
+                    >
+                        Bilgi al
+                    </a>
+                </div>
+
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button
+                              class="accordion-button" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                              aria-controls="panelsStayOpen-collapseOne"
+                            >
+                                Ürün açıklaması
+                            </button>
+                        </h2>
+                        <div
+                          id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                          aria-labelledby="panelsStayOpen-headingOne"
+                        >
+                            <div class="accordion-body">
+                                {{ item.description_rendered | safe }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if item.links.all %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                <button
+                                  class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                  aria-controls="panelsStayOpen-collapseTwo"
+                                >
+                                    İlgili linkler
+                                </button>
+                            </h2>
+
+                            <div
+                              id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                              aria-labelledby="panelsStayOpen-headingTwo"
+                            >
+                                <div class="accordion-body">
+                                    <ol>
+                                        {% for link in item.links.all %}
+                                            <li>
+                                                <a href="{{ link.url }}" target="_blank">
+                                                    Link
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button
+                              class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                              aria-controls="panelsStayOpen-collapseThree"
+                            >
+                                Nakliye bilgisi
+                            </button>
+                        </h2>
+                        <div
+                          id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                          aria-labelledby="panelsStayOpen-headingThree"
+                        >
+                            <div class="accordion-body">
+                               Adresten alinmalidir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
