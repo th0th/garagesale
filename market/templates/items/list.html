@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Listings{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row gy-3" data-masonry='{"percentPosition": true }'>
+            {% for item in items %}
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="card mh-100">
+                        {% if item.images.all|length > 0 %}
+                            <img src="{{ item.images.first.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                        {% else %}
+                            <img src="path_to_default_image.jpg" class="card-img-top" alt="No image available">
+                        {% endif %}
+
+                        <div class="card-body">
+                            {% if item.is_sold %}
+                                <span class="badge bg-danger">Satıldı</span>
+                            {% else %}
+                                <span class="badge bg-success">Satışta</span>
+                            {% endif %}
+
+                            <h5 class="card-title mt-2 text-truncate">
+                                {{ item.name }}
+                            </h5>
+
+
+                            <p class="card-text fw-medium">
+                                <span class="text-decoration-line-through text-danger">{{ item.purchase_price }}₺</span>
+
+                                <span>{{ item.sale_price }}₺</span>
+                            </p>
+
+
+                            <a href="{% url 'items:detail' item.id %}" class="stretched-link" ></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

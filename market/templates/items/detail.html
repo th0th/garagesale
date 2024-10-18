@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %}Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row gy-3 gy-md-0 gx-md-3">
+            <div class="col-12 col-md-4">
+                <div id="item-image-carousel" class="carousel slide">
+                    <div class="carousel-indicators">
+                        {% for image in item.images.all %}
+                            <button
+                              type="button" data-bs-target="#item-image-carousel"
+                              data-bs-slide-to="{{ forloop.counter0 }}"
+                              {% if forloop.first %}class="active"{% endif %}
+                              aria-label="Slide {{ forloop.counter }}"
+                            ></button>
+                        {% endfor %}
+                    </div>
+                    <div class="carousel-inner">
+                        {% for image in item.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ item.name }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button
+                      class="carousel-control-prev" type="button" data-bs-target="#item-image-carousel"
+                      data-bs-slide="prev"
+                    >
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      class="carousel-control-next" type="button" data-bs-target="#item-image-carousel"
+                      data-bs-slide="next"
+                    >
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <p>
+                    <span class="text-decoration-line-through text-danger">{{ item.purchase_price }}₺</span>
+
+                    <span>{{ item.sale_price }}₺</span>
+                </p>
+
+                <h1 class="fs-2">{{ item.name }}</h1>
+
+                {{ item.description_rendered | safe }}
+
+                {% if item.links.all %}
+                    <h3>Linkler</h3>
+
+                    <ul>
+                        {% for link in item.links.all %}
+                            <li>
+                                <a href="{{ link.url }}" target="_blank">{{ link.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

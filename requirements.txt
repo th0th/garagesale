@@ -1,0 +1,13 @@
+asgiref==3.8.1
+beautifulsoup4==4.12.3
+bleach==6.1.0
+Django==4.2.16
+django-markdownfield==0.11.0
+Markdown==3.7
+pillow==11.0.0
+shortuuid==1.0.13
+six==1.16.0
+soupsieve==2.6
+sqlparse==0.5.1
+tinycss2==1.2.1
+webencodings==0.5.1
